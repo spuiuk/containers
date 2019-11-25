@@ -1,0 +1,42 @@
+if [ "x$1" == "x" ]
+then
+	echo "Usage: $0 <container_number>"
+	exit
+fi
+
+num=$1
+container_name=vm147-$num
+image_name=fedora30_samba_common
+cmd='sudo podman'
+
+if ! $cmd ps -a |grep $container_name
+then
+
+	$cmd run -it \
+	--name $container_name \
+	--hostname=$container_name \
+	--volume /data/sprabhu/docker_home:/home/sprabhu \
+	--volume /data:/data \
+	--security-opt label:disable \
+	--cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
+	--cap-add=NET_ADMIN --cap-add=NET_RAW --cap-add=SYS_ADMIN\
+	--privileged \
+	--ip=192.168.147.$num \
+	$image_name
+
+
+	#--dns="192.168.121.1" \
+	#--add-host="vm140-51:192.168.140.51" \
+	#--add-host="vm140-52:192.168.140.52" \
+	#--add-host="vm140-53:192.168.140.53" \
+	#--add-host="vm145-53:192.168.145.53" \
+
+elif $cmd ps|grep $container_name
+then
+	$cmd exec -it $container_name /bin/bash
+
+else
+	$cmd start $container_name
+	$cmd attach $container_name
+
+fi
