@@ -1,6 +1,11 @@
 #Version: 0.0.1
 FROM	fedora:32
-ENV	REFRESHED_AT 2020-05-19-1
+ENV	REFRESHED_AT 2020-07-04-1
+
+ARG	USERNAME=sprabhu
+ARG	GROUPNAME=sprabhu
+ARG	USER_UID=4505
+ARG	USER_GID=$USER_UID
 
 RUN	dnf update -y
 
@@ -15,8 +20,8 @@ RUN	dnf install -y samba
 
 RUN	echo "ALL  ALL=(ALL)       NOPASSWD: ALL" > /etc/sudoers.d/all
 
-RUN	groupadd -g 4505 sprabhu
-RUN	useradd -u4505 -g sprabhu sprabhu
+RUN	groupadd -g ${USER_UID} ${USERNAME}
+RUN	useradd -u ${USER_UID} -g ${GROUPNAME} ${USERNAME}
 
 RUN	useradd test1; (echo x; echo x)|smbpasswd -a test1
 RUN	useradd test2; (echo x; echo x)|smbpasswd -a test2
@@ -25,7 +30,7 @@ RUN	mkdir /test; chmod 777 /test
 
 COPY	smb.conf /etc/samba/smb.conf
 
-USER	sprabhu:sprabhu
-WORKDIR	/home/sprabhu
+USER	${USERNAME}:${USERNAME}
+WORKDIR	/home/${USERNAME}
 
 CMD	["/bin/bash"]
