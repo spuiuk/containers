@@ -9,6 +9,8 @@ container_name=vm147-$num
 image_name=fedora32_samba_common
 cmd='sudo podman'
 
+xhost local:sprabhu
+
 if ! $cmd ps -a |grep $container_name
 then
 
@@ -21,6 +23,7 @@ then
 	--cap-add=NET_ADMIN --cap-add=NET_RAW --cap-add=SYS_ADMIN\
 	--privileged \
 	--ip=192.168.147.$num \
+	-v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix$DISPLAY \
 	$image_name
 
 
