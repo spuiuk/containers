@@ -6,7 +6,7 @@ fi
 
 num=$1
 container_name=vm147-$num
-image_name=fedora30_samba_common
+image_name=fedora32_samba_common
 cmd='sudo podman'
 
 if ! $cmd ps -a |grep $container_name
