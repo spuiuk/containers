@@ -1,0 +1,5 @@
+# This is the podman executable for use with my vscode Remote-Containers extension
+# This is needed because I use root podman which requires sudo before calling podman.
+# Do not use this in the $PATH as it will interfere with the usual podman command
+
+sudo podman $@
