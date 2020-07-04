@@ -17,7 +17,6 @@ then
 	--hostname=$container_name \
 	--volume /data/sprabhu/docker_home:/home/sprabhu \
 	--volume /data:/data \
-	--security-opt label:disable \
 	--cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
 	--cap-add=NET_ADMIN --cap-add=NET_RAW --cap-add=SYS_ADMIN\
 	--privileged \
@@ -25,6 +24,7 @@ then
 	$image_name
 
 
+	#--security-opt label:disable \
 	#--dns="192.168.121.1" \
 	#--add-host="vm140-51:192.168.140.51" \
 	#--add-host="vm140-52:192.168.140.52" \
